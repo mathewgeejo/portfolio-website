@@ -23,6 +23,12 @@
         <div class="loading-bar">
             <div class="loading-progress"></div>
         </div>
+        <div class="loading-pixels">
+            <div class="pixel"></div>
+            <div class="pixel"></div>
+            <div class="pixel"></div>
+            <div class="pixel"></div>
+        </div>
     </div>
 
     <!-- Header -->
@@ -47,7 +53,8 @@
                 <p class="hero-subtitle">FULL STACK DEVELOPER</p>
                 <p style="font-size: 0.8rem; color: var(--neon-cyan); margin-bottom: 2rem;">
                     > Building elegant solutions through code<br>
-                    > Ready to level up your project
+                    > Ready to level up your project<br>
+                    > Press START to begin adventure
                 </p>
                 <div class="arcade-buttons">
                     <a href="#projects" class="arcade-btn">PLAY GAME</a>
@@ -57,6 +64,10 @@
             <div class="arcade-display">
                 <div class="screen">
                     <div class="pixel-art"></div>
+                    <div class="screen-effects">
+                        <div class="scan-line"></div>
+                        <div class="screen-flicker"></div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -67,20 +78,21 @@
             <div style="font-size: 0.8rem; line-height: 1.6; color: var(--neon-cyan); text-align: center; margin-bottom: 2rem;">
                 > Full Stack Developer specializing in AI and web technologies<br>
                 > Experience in GenAI platforms, merit-based networking, and modern web apps<br>
-                > Passionate about creating innovative solutions through cutting-edge technology
+                > Passionate about creating innovative solutions through cutting-edge technology<br>
+                > Level: Expert | XP: 9999+ | Status: Ready for new quests
             </div>
             
             <div class="skills-grid">
-                <div class="skill-item">HTML</div>
-                <div class="skill-item">CSS</div>
-                <div class="skill-item">JAVASCRIPT</div>
-                <div class="skill-item">PYTHON</div>
-                <div class="skill-item">JAVA</div>
-                <div class="skill-item">NODE.JS</div>
-                <div class="skill-item">FLASK</div>
-                <div class="skill-item">SQL</div>
-                <div class="skill-item">GIT</div>
-                <div class="skill-item">PROJECT MGMT</div>
+                <div class="skill-item" data-skill="HTML">HTML</div>
+                <div class="skill-item" data-skill="CSS">CSS</div>
+                <div class="skill-item" data-skill="JAVASCRIPT">JAVASCRIPT</div>
+                <div class="skill-item" data-skill="PYTHON">PYTHON</div>
+                <div class="skill-item" data-skill="JAVA">JAVA</div>
+                <div class="skill-item" data-skill="NODE.JS">NODE.JS</div>
+                <div class="skill-item" data-skill="FLASK">FLASK</div>
+                <div class="skill-item" data-skill="SQL">SQL</div>
+                <div class="skill-item" data-skill="GIT">GIT</div>
+                <div class="skill-item" data-skill="PROJECT MGMT">PROJECT MGMT</div>
             </div>
         </section>
 
@@ -89,27 +101,27 @@
             <h2 class="section-title">GAME LIBRARY</h2>
             <div class="projects-container">
                 <div class="project-cabinet">
-                    <div class="project-screen"></div>
+                    <div class="project-screen" data-project="0"></div>
                     <div class="project-title">FYUGP GENAI</div>
                     <div class="project-desc">Advanced AI platform for Four Year Undergraduate Program with GenAI capabilities</div>
                     <div class="project-tech">Python • AI/ML • Flask • React</div>
-                    <a href="https://github.com/mathewgeejo/fyugp-GenAI" target="_blank" class="project-link">VIEW CODE</a>
+                    <a href="https://github.com/mathewgeejo/fyugp-GenAI" target="_blank" class="project-link arcade-btn">VIEW CODE</a>
                 </div>
 
                 <div class="project-cabinet">
-                    <div class="project-screen"></div>
+                    <div class="project-screen" data-project="1"></div>
                     <div class="project-title">FYUGP GENAI V2</div>
                     <div class="project-desc">Enhanced version of the AI platform with improved features and performance</div>
                     <div class="project-tech">Python • Advanced AI • Machine Learning</div>
-                    <a href="https://github.com/mathewgeejo/fyugp-GenAI" target="_blank" class="project-link">VIEW CODE</a>
+                    <a href="https://github.com/mathewgeejo/fyugp-GenAI" target="_blank" class="project-link arcade-btn">VIEW CODE</a>
                 </div>
 
                 <div class="project-cabinet">
-                    <div class="project-screen"></div>
+                    <div class="project-screen" data-project="2"></div>
                     <div class="project-title">EDUSYNC</div>
                     <div class="project-desc">Merit-based professional networking platform - LinkedIn alternative focused on achievements</div>
                     <div class="project-tech">Node.js • React • MongoDB • Authentication</div>
-                    <a href="https://github.com/mathewgeejo/edusync" target="_blank" class="project-link">VIEW CODE</a>
+                    <a href="https://github.com/mathewgeejo/edusync" target="_blank" class="project-link arcade-btn">VIEW CODE</a>
                 </div>
             </div>
         </section>
@@ -121,21 +133,124 @@
                 <div class="terminal-header">
                     > ESTABLISHING CONNECTION...<br>
                     > STATUS: ONLINE<br>
-                    > READY FOR COLLABORATION
+                    > READY FOR COLLABORATION<br>
+                    > DRAG SPECIAL BUTTONS TO UNLOCK SECRET...
                 </div>
                 <div class="terminal-content">
                     > Feel free to reach out for collaborations<br>
                     > Available for new opportunities<br>
-                    > Let's build something amazing together!
+                    > Let's build something amazing together!<br>
+                    > Easter egg hint: L + M = ❤️
                 </div>
                 
                 <div class="social-links">
                     <a href="https://github.com/mathewgeejo" class="social-btn" target="_blank">G</a>
-                    <a href="https://www.linkedin.com/in/mathewgeejo" class="social-btn" target="_blank">L</a>
-                    <a href="mailto:mathewgeejo@gmail.com" class="social-btn">M</a>
+                    <a href="https://www.linkedin.com/in/mathewgeejo" class="social-btn draggable-btn" target="_blank" data-btn="L">L</a>
+                    <a href="mailto:mathewgeejo@gmail.com" class="social-btn draggable-btn" data-btn="M">M</a>
+                </div>
+                
+                <!-- Hidden Easter Egg Container -->
+                <div id="easterEggZone" class="easter-egg-zone">
+                    <div class="zone-hint">DROP HERE</div>
                 </div>
             </div>
         </section>
     </main>
+
+    <!-- Enhanced Love Page -->
+    <div id="lovePage" class="love-page">
+        <div class="close-love">×</div>
+        <div class="love-content">
+            <h1 class="love-title">💖 FOR MY DARLING LEA 💖</h1>
+            
+            <div class="love-message">
+                To the most wonderful girlfriend in the world! 🌟<br><br>
+                You bring magic to every day and make my world brighter.<br>
+                This little arcade tribute is just a tiny reflection<br>
+                of how amazing you are, my beautiful princess! 👑<br><br>
+                I love you more than all the pixels in this retro universe! 💕
+            </div>
+            
+            <div class="love-nicknames">
+                <div class="nickname">💝 KITTY 💝</div>
+                <div class="nickname">🌻 BUTTERCUP 🌻</div>
+                <div class="nickname">💎 DARLING 💎</div>
+                <div class="nickname">👑 PRINCESS 👑</div>
+            </div>
+
+            <!-- Music Player Section -->
+            <div class="music-player">
+                <h3 class="section-subtitle">🎵 LOVE SONGS ARCADE 🎵</h3>
+                <div class="music-controls">
+                    <div class="song-selector">
+                        <button class="song-btn" data-song="retro-love">Retro Love</button>
+                        <button class="song-btn" data-song="pixel-dreams">Pixel Dreams</button>
+                        <button class="song-btn" data-song="arcade-romance">Arcade Romance</button>
+                    </div>
+                    <div class="player-controls">
+                        <button id="playPauseBtn" class="control-btn">▶️</button>
+                        <button id="muteBtn" class="control-btn">🔊</button>
+                        <input type="range" id="volumeSlider" min="0" max="100" value="50" class="volume-slider">
+                    </div>
+                    <div class="now-playing">Now Playing: <span id="currentSong">Select a song</span></div>
+                </div>
+                <audio id="audioPlayer" loop></audio>
+            </div>
+
+            <!-- Custom Message Section -->
+            <div class="custom-section">
+                <h3 class="section-subtitle">💌 CUSTOM LOVE MESSAGE 💌</h3>
+                <textarea id="customMessage" placeholder="Write your own sweet message here..." rows="4"></textarea>
+                <button id="saveMessage" class="arcade-btn">SAVE MESSAGE</button>
+                <div id="savedMessage" class="saved-message"></div>
+            </div>
+
+            <!-- Photo Gallery -->
+            <div class="photo-gallery">
+                <h3 class="section-subtitle">📸 MEMORY ARCADE 📸</h3>
+                <div class="photo-grid">
+                    <div class="photo-slot" onclick="uploadPhoto(0)">
+                        <span>Click to add your favorite photo of Lea! 📸</span>
+                    </div>
+                    <div class="photo-slot" onclick="uploadPhoto(1)">
+                        <span>Add another beautiful memory! 💕</span>
+                    </div>
+                    <div class="photo-slot" onclick="uploadPhoto(2)">
+                        <span>More precious moments! ✨</span>
+                    </div>
+                    <div class="photo-slot" onclick="uploadPhoto(3)">
+                        <span>Sweet memories together! 🥰</span>
+                    </div>
+                    <div class="photo-slot" onclick="uploadPhoto(4)">
+                        <span>Your smile lights up my world! 😊</span>
+                    </div>
+                    <div class="photo-slot" onclick="uploadPhoto(5)">
+                        <span>Forever and always! 💖</span>
+                    </div>
+                </div>
+                <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+            </div>
+
+            <!-- Interactive Power-ups -->
+            <div class="power-ups">
+                <h3 class="section-subtitle">✨ LOVE POWER-UPS ✨</h3>
+                <div class="power-up-grid">
+                    <button class="power-up-btn" data-power="love">❤️ LOVE BOOST</button>
+                    <button class="power-up-btn" data-power="sparkle">⭐ SPARKLE</button>
+                    <button class="power-up-btn" data-power="energy">⚡ ENERGY</button>
+                    <button class="power-up-btn" data-power="magic">🌟 MAGIC</button>
+                </div>
+            </div>
+
+            <!-- Floating Love Elements Container -->
+            <div class="floating-love"></div>
+        </div>
+    </div>
+
+    <!-- Heart Rain Container -->
+    <div id="heartRain" class="heart-rain"></div>
+
+    <!-- Hidden file input for photo uploads -->
+    <input type="file" id="hiddenFileInput" accept="image/*" style="display: none;">
 </body>
 </html>

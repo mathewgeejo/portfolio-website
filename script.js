@@ -461,5 +461,311 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Initialize typing effect
-window.addEventListener('load', typeWriter);
+// Initialize typing effect and Easter egg
+window.addEventListener('load', () => {
+    typeWriter();
+    initEasterEgg();
+});
+
+// Easter Egg Functionality
+let draggedButtons = [];
+let isDragging = false;
+
+function initEasterEgg() {
+    const draggableButtons = document.querySelectorAll('.draggable-btn');
+    const easterEggZone = document.getElementById('easterEggZone');
+    
+    draggableButtons.forEach(button => {
+        let startX, startY, currentX, currentY;
+        let originalParent = button.parentNode;
+        let originalNext = button.nextSibling;
+        
+        button.addEventListener('mousedown', startDrag);
+        button.addEventListener('touchstart', startDrag, { passive: false });
+        
+        function startDrag(e) {
+            e.preventDefault();
+            isDragging = true;
+            
+            const rect = button.getBoundingClientRect();
+            if (e.type === 'mousedown') {
+                startX = e.clientX - rect.left;
+                startY = e.clientY - rect.top;
+            } else {
+                startX = e.touches[0].clientX - rect.left;
+                startY = e.touches[0].clientY - rect.top;
+            }
+            
+            button.classList.add('dragging');
+            document.body.appendChild(button);
+            
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('mouseup', stopDrag);
+            document.addEventListener('touchend', stopDrag);
+            
+            updateEasterEggZone();
+        }
+        
+        function drag(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            
+            if (e.type === 'mousemove') {
+                currentX = e.clientX - startX;
+                currentY = e.clientY - startY;
+            } else {
+                currentX = e.touches[0].clientX - startX;
+                currentY = e.touches[0].clientY - startY;
+            }
+            
+            button.style.left = currentX + 'px';
+            button.style.top = currentY + 'px';
+            
+            checkEasterEggCollision(button, e);
+        }
+        
+        function stopDrag(e) {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('touchmove', drag);
+            document.removeEventListener('mouseup', stopDrag);
+            document.removeEventListener('touchend', stopDrag);
+            
+            const rect = easterEggZone.getBoundingClientRect();
+            const buttonRect = button.getBoundingClientRect();
+            
+            if (isOverlapping(buttonRect, rect) && easterEggZone.classList.contains('ready')) {
+                addToEasterEgg(button);
+            } else {
+                button.classList.remove('dragging');
+                button.style.position = '';
+                button.style.left = '';
+                button.style.top = '';
+                originalParent.insertBefore(button, originalNext);
+            }
+            
+            updateEasterEggZone();
+        }
+    });
+}
+
+function updateEasterEggZone() {
+    const easterEggZone = document.getElementById('easterEggZone');
+    const draggingButtons = document.querySelectorAll('.dragging');
+    
+    if (draggingButtons.length > 0) {
+        easterEggZone.classList.add('ready');
+    } else {
+        easterEggZone.classList.remove('ready');
+    }
+}
+
+function checkEasterEggCollision(button, e) {
+    const easterEggZone = document.getElementById('easterEggZone');
+    const rect = easterEggZone.getBoundingClientRect();
+    const buttonRect = button.getBoundingClientRect();
+    
+    if (isOverlapping(buttonRect, rect)) {
+        easterEggZone.style.borderColor = '#00ff00';
+        easterEggZone.style.boxShadow = '0 0 20px #00ff00';
+    } else {
+        easterEggZone.style.borderColor = 'var(--neon-pink)';
+        easterEggZone.style.boxShadow = '';
+    }
+}
+
+function addToEasterEgg(button) {
+    const buttonType = button.getAttribute('data-btn');
+    
+    if (!draggedButtons.includes(buttonType)) {
+        draggedButtons.push(buttonType);
+        button.style.display = 'none';
+    }
+    
+    if (draggedButtons.includes('L') && draggedButtons.includes('M')) {
+        activateEasterEgg();
+    }
+}
+
+function activateEasterEgg() {
+    const easterEggZone = document.getElementById('easterEggZone');
+    easterEggZone.classList.add('activated');
+    
+    setTimeout(() => {
+        createLovePage();
+        startHeartRain();
+        createFloatingLoveElements();
+    }, 500);
+}
+
+function createLovePage() {
+    const lovePage = document.createElement('div');
+    lovePage.className = 'love-page';
+    lovePage.innerHTML = `
+        <div class="close-love">×</div>
+        <h1 class="love-title">💖 FOR MY DARLING LEA 💖</h1>
+        <div class="love-message">
+            To the most wonderful girlfriend in the world! 🌟<br><br>
+            You bring magic to every day and make my world brighter.<br>
+            This little arcade tribute is just a tiny reflection<br>
+            of how amazing you are, my beautiful princess! 👑<br><br>
+            I love you more than all the pixels in this retro universe! 💕
+        </div>
+        <div class="love-nicknames">
+            <div class="nickname">💝 KITTY 💝</div>
+            <div class="nickname">🌻 BUTTERCUP 🌻</div>
+            <div class="nickname">💎 DARLING 💎</div>
+            <div class="nickname">👑 PRINCESS 👑</div>
+        </div>
+        <div class="photo-gallery">
+            <div class="photo-slot">Click to add your favorite photo of Lea! 📸</div>
+            <div class="photo-slot">Add another beautiful memory! 💕</div>
+            <div class="photo-slot">More precious moments! ✨</div>
+            <div class="photo-slot">Sweet memories together! 🥰</div>
+            <div class="photo-slot">Your smile lights up my world! 😊</div>
+            <div class="photo-slot">Forever and always! 💖</div>
+        </div>
+        <div class="floating-love"></div>
+    `;
+    
+    document.body.appendChild(lovePage);
+    
+    setTimeout(() => {
+        lovePage.classList.add('show');
+    }, 100);
+    
+    lovePage.querySelector('.close-love').addEventListener('click', closeLovePage);
+    
+    const photoSlots = lovePage.querySelectorAll('.photo-slot');
+    photoSlots.forEach(slot => {
+        slot.addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        slot.style.backgroundImage = `url(${e.target.result})`;
+                        slot.style.backgroundSize = 'cover';
+                        slot.style.backgroundPosition = 'center';
+                        slot.textContent = '';
+                        slot.style.border = '3px solid #00ff00';
+                        
+                        const sparkles = document.createElement('div');
+                        sparkles.style.position = 'absolute';
+                        sparkles.style.top = '0';
+                        sparkles.style.left = '0';
+                        sparkles.style.width = '100%';
+                        sparkles.style.height = '100%';
+                        sparkles.style.pointerEvents = 'none';
+                        sparkles.innerHTML = '✨✨✨';
+                        sparkles.style.animation = 'sparkle 2s ease-in-out';
+                        slot.appendChild(sparkles);
+                        
+                        setTimeout(() => sparkles.remove(), 2000);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        });
+    });
+}
+
+function startHeartRain() {
+    const heartRain = document.createElement('div');
+    heartRain.className = 'heart-rain';
+    document.body.appendChild(heartRain);
+    
+    function createHeart() {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = ['💖', '💕', '💝', '❤️', '💗'][Math.floor(Math.random() * 5)];
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        heart.style.animationDelay = Math.random() + 's';
+        
+        heartRain.appendChild(heart);
+        
+        setTimeout(() => {
+            heart.remove();
+        }, 4000);
+    }
+    
+    const heartInterval = setInterval(createHeart, 200);
+    heartRain.heartInterval = heartInterval;
+}
+
+function createFloatingLoveElements() {
+    const floatingLove = document.querySelector('.floating-love');
+    const loveElements = ['💕', '✨', '🌟', '💖', '🦋', '🌸', '💫', '🌺'];
+    
+    function createLoveElement() {
+        const element = document.createElement('div');
+        element.className = 'love-element';
+        element.innerHTML = loveElements[Math.floor(Math.random() * loveElements.length)];
+        element.style.left = Math.random() * window.innerWidth + 'px';
+        element.style.top = Math.random() * window.innerHeight + 'px';
+        element.style.animationDelay = Math.random() * 5 + 's';
+        
+        floatingLove.appendChild(element);
+        
+        setTimeout(() => {
+            element.remove();
+        }, 10000);
+    }
+    
+    for (let i = 0; i < 15; i++) {
+        setTimeout(createLoveElement, i * 500);
+    }
+}
+
+function closeLovePage() {
+    const lovePage = document.querySelector('.love-page');
+    const heartRain = document.querySelector('.heart-rain');
+    
+    if (lovePage) {
+        lovePage.classList.remove('show');
+        setTimeout(() => {
+            lovePage.remove();
+        }, 500);
+    }
+    
+    if (heartRain) {
+        clearInterval(heartRain.heartInterval);
+        heartRain.remove();
+    }
+    
+    draggedButtons = [];
+    const hiddenButtons = document.querySelectorAll('.draggable-btn[style*="display: none"]');
+    hiddenButtons.forEach(button => {
+        button.style.display = '';
+        button.classList.remove('dragging');
+        button.style.position = '';
+        button.style.left = '';
+        button.style.top = '';
+    });
+    
+    const easterEggZone = document.getElementById('easterEggZone');
+    easterEggZone.classList.remove('ready', 'activated');
+}
+
+function isOverlapping(rect1, rect2) {
+    return !(rect1.right < rect2.left || 
+             rect1.left > rect2.right || 
+             rect1.bottom < rect2.top || 
+             rect1.top > rect2.bottom);
+}
+
+const sparkleStyle = document.createElement('style');
+sparkleStyle.textContent = `
+    @keyframes sparkle {
+        0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+        50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
+    }
+`;
